@@ -1,24 +1,49 @@
+'use client';
+
 import Button from "./Button";
-export default function Navegation() {
+
+interface NavegationProps {
+  activeSection: string;
+}
+
+export default function Navegation({ activeSection }: NavegationProps) {
+  const getLinkClass = (section: string) =>
+      activeSection === section
+          ? "rounded-full border-2 border-[#fcd28a] px-[10px] max-sm:pb-[2px] md:px-3 md:py-1 bg-[#f9ebd22f] text-[#fcd28a] group-hover:bg-[#f9ebd22f] group-hover:text-[#fcd28a]"
+          : "rounded-full border-2 border-[#fcd28a] px-[10px] max-sm:pb-[2px] md:px-3 md:py-1 text-[#000000] group-hover:bg-[#f9ebd22f] group-hover:text-[#fcd28a]";
+
+  const capitalize = (str: string): string =>
+      str
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+  const scrollToSection = (section: string) => {
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <>
-      <nav className="bg-white w-full p-3 z-50 max-w-screen-lg sticky top-0">
+      <nav className="bg-white w-full p-3 z-50 max-w-screen-lg overflow-hidden">
         <div className="flex justify-between items-center">
-          <h1 className="font-[700] text-[24px] text-black">168 Styles</h1>
+          <h1 className="font-[700] text-[16px] md:text-[24px] text-black">168 Styles</h1>
           <Button />
         </div>
 
         <div>
           <ul className="flex space-x-2 overflow-x-auto py-4">
-            <li className="cursor-pointer whitespace-nowrap rounded-lg">
-              <button className="transition-all  group">
-                <div className="rounded-full border-2 border-[#fcd28a] px-3 py-1 transition-all text-[#000000] group-hover:bg-[#f9ebd22f] group-hover:text-[#fcd28a]">
-                  <span className="text-center font-semibold decoration-[#fcd28a] decoration-[3px] underline-offset-4">
-                    Tank Top
-                  </span>
-                </div>
-              </button>
-            </li>
+            {["section_1", "section_2", "section_3"].map((section) => (
+                <li key={section} className="cursor-pointer whitespace-nowrap rounded-lg">
+                  <button onClick={() => scrollToSection(section)} className="transition-all group">
+                    <div className={getLinkClass(section)}>
+                      <span className="text-[12px] md:text-[16px] text-center font-semibold decoration-[#fcd28a] decoration-[3px] underline-offset-4">
+                        {capitalize(section.replace("_", " "))}
+                      </span>
+                    </div>
+                  </button>
+                </li>
+            ))}
           </ul>
         </div>
 
