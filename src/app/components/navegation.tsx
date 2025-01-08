@@ -2,7 +2,7 @@ import Button from "./Button";
 export default function Navegation() {
   return (
     <>
-      <nav className="bg-white w-full h-full p-3">
+      <nav className="bg-white w-full p-3 z-50 max-w-screen-lg sticky top-0">
         <div className="flex justify-between items-center">
           <h1 className="font-[700] text-[24px] text-black">168 Styles</h1>
           <Button />
