@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import {useParams, usePathname, useRouter} from "next/navigation";
+import { useRouter} from "next/navigation";
 
 export default function Button() {
     const [isKhActive, setIsKhActive] = useState(true);
     const router = useRouter();
-    const pathname = usePathname();
-    const params = useParams()
+    // const pathname = usePathname();
+    // const params = useParams()
     // Set locale in localStorage
     const setToLocalStorage = (locale:string) => {
         localStorage.setItem("locale", locale);
@@ -23,7 +23,6 @@ export default function Button() {
         const newLocale = isKhActive ? "en" : "kh";
         setIsKhActive(!isKhActive);
         setToLocalStorage(newLocale);
-        // @ts-ignore
         router.replace(`/${newLocale}`);
     };
 
