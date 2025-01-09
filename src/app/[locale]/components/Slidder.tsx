@@ -37,11 +37,11 @@ export default function Slidder() {
 
     return (
     <div ref={sliderRef} className="keen-slider my-3 zoom-out ">
-      {images.map((src, idx) => (
+      {images.map((images, idx) => (
         <div key={idx} className="keen-slider__slide zoom-out_slide">
         <div style={scaleStyle(idx)}>
             <Image
-            src={src}
+            src={images}
             width={430}
             height={430}
             alt={`slider ${idx + 1}`}

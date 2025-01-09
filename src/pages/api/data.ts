@@ -4,9 +4,14 @@ interface ErrorResponse {
     error: string;
 }
 
+interface AppSheetResponse {
+    Rows: unknown[]; // Rows as an array of unknown type
+    Properties?: unknown; // Optional Properties of unknown type
+}
+
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<any | ErrorResponse> // Adjust the `any` type based on your expected data structure
+    res: NextApiResponse<AppSheetResponse | ErrorResponse>
 ) {
     if (req.method !== "GET") {
         return res.status(405).json({ error: "Method not allowed" });
@@ -14,7 +19,7 @@ export default async function handler(
 
     const { tableName } = req.query;
 
-    // Validate `tableName` type
+    // Validate tableName type
     if (typeof tableName !== "string") {
         return res.status(400).json({ error: "Invalid tableName parameter" });
     }
@@ -29,29 +34,29 @@ export default async function handler(
 
     try {
         const response = await fetch(endPoint, {
-            method: 'POST', // Explicit method definition
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "applicationAccessKey":  apiKey,
+                applicationAccessKey: apiKey,
             },
             body: JSON.stringify({
-                "Action": "Find",
-                "Properties": {
-                    "Locale": "en-US",
-                    "Timezone": "UTC"
+                Action: "Find",
+                Properties: {
+                    Locale: "en-US",
+                    Timezone: "UTC",
                 },
-                "Rows": []
-            })
+                Rows: [],
+            }),
         });
 
         if (!response.ok) {
             throw new Error(`Error fetching data: ${response.statusText} (Status Code: ${response.status})`);
         }
 
-        const data = await response.json();
+        const data: AppSheetResponse = await response.json();
         res.status(200).json(data);
     } catch (error) {
-        console.error("Error details:", error);  // Log the full error for debugging
+        console.error("Error details:", error);
         res.status(500).json({ error: error instanceof Error ? error.message : "An unknown error occurred" });
     }
 }

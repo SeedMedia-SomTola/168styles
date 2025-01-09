@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter} from "next/navigation";
+import { useRouter} from "@/i18n/routing";
+// import {useParams} from "next/navigation";
 
 export default function Button() {
     const [isKhActive, setIsKhActive] = useState(true);
@@ -23,7 +24,7 @@ export default function Button() {
         const newLocale = isKhActive ? "en" : "kh";
         setIsKhActive(!isKhActive);
         setToLocalStorage(newLocale);
-        router.replace(`/${newLocale}`);
+        router.replace(`${newLocale}`);
     };
 
     // Initialize locale from localStorage
@@ -43,7 +44,7 @@ export default function Button() {
                     alt="usa-flag"
                     width={32}
                     height={32}
-                    className="w-auto h-auto rounded-md"
+                    className=" rounded-[4px]"
                 />
             </button>
             <button
@@ -55,7 +56,7 @@ export default function Button() {
                     alt="kh-flag"
                     width={32}
                     height={32}
-                    className="w-auto h-auto rounded-md"
+                    className="rounded-[4px]"
                 />
             </button>
         </div>

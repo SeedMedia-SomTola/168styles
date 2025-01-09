@@ -1,38 +1,30 @@
-import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
 import "./globals.css";
-import { NextIntlClientProvider } from 'next-intl';
-import {getMessages} from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import { ReactNode } from "react";
 
-const ubuntuSans = Ubuntu({
-    variable: "--font-ubuntu-sans",
-    subsets: ["latin"],
-    weight: ["400", "500", "700"], // Add weights as needed
-});
+interface RootLayoutProps {
+    children: ReactNode;
+    params: Promise<{ locale: string }>;
+}
 
-export const metadata: Metadata = {
-    title: "168Styles",
-    description: "Beauty Website",
-};
-
-export default async function LocaleLayout({
-                                               children,
-                                               params,
-                                           }: {
-    children: React.ReactNode;
-    params: { locale: string };
-}) {
-    const { locale } = await params; // Await params before using `locale`
-
-    const messages = await getMessages();
-
+export default async function Layout({ children, params }: RootLayoutProps) {
+    const { locale } = await params;
+    // Ensure that the incoming `locale` is valid
+    if (!routing.locales.includes(locale as typeof routing.locales[number])) {
+        notFound();
+    }
+    // Providing all messages to the client side
+    const messages = await getMessages(); // Make sure the messages are fetched with the correct locale
     return (
         <html lang={locale}>
-        <body className={`${ubuntuSans.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-            {children}
-        </NextIntlClientProvider>
-        </body>
+            <body>
+                <NextIntlClientProvider messages={messages}>
+                    {children}
+                </NextIntlClientProvider>
+            </body>
         </html>
     );
 }

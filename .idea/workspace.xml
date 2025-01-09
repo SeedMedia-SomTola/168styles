@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb6696f6-4e9f-4d7b-82a3-9411cf425679" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/i18n/request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/i18n/routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eslint.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/eslint.config.mjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/[locale]/components/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/components/Button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/i18n.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/i18n.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/components/Slidder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/components/Slidder.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/not-found.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/pages.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/i18n.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/data.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +77,8 @@
       <workItem from="1736313680022" duration="52000" />
       <workItem from="1736316385726" duration="14024000" />
       <workItem from="1736384687588" duration="27833000" />
-      <workItem from="1736417751898" duration="311000" />
+      <workItem from="1736417751898" duration="543000" />
+      <workItem from="1736421367812" duration="4026000" />
     </task>
     <servers />
   </component>
