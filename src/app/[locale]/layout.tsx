@@ -20,7 +20,7 @@ export default async function Layout({ children, params }: RootLayoutProps) {
     // Providing all messages to the client side
     const messages = await getMessages(); // Make sure the messages are fetched with the correct locale
     return (
-        <html lang={locale}>
+        <html lang={locale} data-theme="light">
             <body>
                 <NextIntlClientProvider messages={messages}>
                     {children}

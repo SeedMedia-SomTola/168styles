@@ -42,9 +42,8 @@ export default function Button() {
                 <Image
                     src="/assets/images/usa-flag.png"
                     alt="usa-flag"
-                    width={32}
-                    height={32}
-                    className=" rounded-[4px]"
+                    width="2000" height="2000"
+                    className="w-[32px] h-full rounded-[4px]"
                 />
             </button>
             <button
@@ -54,9 +53,8 @@ export default function Button() {
                 <Image
                     src="/assets/images/kh-flag.png"
                     alt="kh-flag"
-                    width={32}
-                    height={32}
-                    className="rounded-[4px]"
+                    width="2000" height="2000"
+                    className="w-[32px] h-full rounded-[4px]"
                 />
             </button>
         </div>

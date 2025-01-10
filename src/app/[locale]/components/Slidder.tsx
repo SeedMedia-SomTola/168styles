@@ -42,8 +42,7 @@ export default function Slidder() {
         <div style={scaleStyle(idx)}>
             <Image
             src={images}
-            width={430}
-            height={430}
+            width={1760} height={2000}
             alt={`slider ${idx + 1}`}
             className="rounded-xl w-full h-[200px] md:h-[400px] object-cover"
             />

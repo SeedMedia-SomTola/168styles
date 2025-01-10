@@ -3,9 +3,10 @@
 import Button from "./Button";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import {useMemo, useState} from "react";
 
 interface NavigationProps {
-  activeSection: string;
+  activeSection:string;
   category: {
     _RowNumber: number;
     cate_id: string;
@@ -14,13 +15,21 @@ interface NavigationProps {
       id: string;
     };
   }[] | null;
+  searchParams:(data:string) => void;
 }
 
 const logo =
     'https://www.appsheet.com/fsimage.png?appid=4847193e-4ce7-426f-92df-d5fed06513c0&datasource=google&filename=DocId%3D1EkQLqTzlIJlP-fJ7xIw83w8EDdB1Mrya&signature=ad96eb3f66e70c2917227e9c6b9f915e3fd86982be99ad6a2b2956bc9de20306&tableprovider=google&userid=935036077';
 
-export default function Navigation({ activeSection,category }: NavigationProps) {
+export default function Navigation({activeSection, category,searchParams }: NavigationProps) {
   const t = useTranslations('Navigation');
+  const [params, setSearchParam] = useState<string>();
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    searchParams(query);
+    setSearchParam(query);
+  }
+
   const getLinkClass = (section: string) =>
       activeSection === section
           ? "rounded-full border-2 border-[#eb1c25] px-3 py-1 bg-[#eb1c25]/20 text-[#eb1c25] group-hover:bg-[#eb1c25]/20 group-hover:text-[#eb1c25]"
@@ -34,17 +43,25 @@ export default function Navigation({ activeSection,category }: NavigationProps) 
 
   const scrollToSection = (section: string) => {
     const element = document.getElementById(section);
+
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  const filteredData = useMemo(() => {
+    if (!category) return [];
+    return category.filter((cat) =>
+        params ? cat.cate_name.toLowerCase().includes(params.toLowerCase()) : true
+    );
+  }, [category, params]);
+
   return (
       <nav className="bg-white w-full p-3 z-50 max-w-screen-lg overflow-hidden">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Image src={logo} width="32" height="32" alt="logo" />
-            <h1 className="font-[700] text-[24px] text-black">168 Styles</h1>
+            <Image src={logo} width="3000" height="2000" alt="logo" className="w-[32px] h-[32px]"/>
+            <h1 className=" font-[700] text-[24px] text-black">168 Styles</h1>
           </div>
           <Button />
         </div>
@@ -52,24 +69,28 @@ export default function Navigation({ activeSection,category }: NavigationProps) 
         <div>
           <ul className="flex space-x-2 overflow-x-auto py-4">
             {/* Add null check to prevent accessing data if it's still null */}
-            {category ? (
-                category.map((section) => (
-                    <li key={section.cate_id} className="cursor-pointer whitespace-nowrap rounded-lg">
-                      <button
-                          onClick={() => scrollToSection(section.cate_name)}
-                          className="transition-all group"
-                      >
-                        <div className={getLinkClass(section.cate_name)}>
-                    <span className="text-[18px] text-center font-semibold decoration-[#fcd28a] decoration-[3px] underline-offset-4">
-                      {capitalize(section.cate_name)}
-                    </span>
-                        </div>
-                      </button>
-                    </li>
-                ))
-            ) : (
-                <div>No categories available</div> // Fallback UI in case no data
-            )}
+            {filteredData.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full">
+                      <h2 className="text-[12px] font-semibold text-gray-700">Search not found!</h2>
+                    </div>
+                )  :
+                (
+                    filteredData.map((section,idx) => (
+                        <li key={section.cate_id} className="cursor-pointer whitespace-nowrap rounded-lg">
+                          <button
+                              onClick={() => scrollToSection(`section_${idx}`)}
+                              className="transition-all group"
+                          >
+                            <div className={getLinkClass(`section_${idx}`)}>
+                                <span className="text-[18px] text-center font-semibold decoration-[#fcd28a] decoration-[3px] underline-offset-4">
+                                  {capitalize(section.cate_name)}
+                                </span>
+                            </div>
+                          </button>
+                        </li>
+                    ))
+                )
+            }
           </ul>
         </div>
 
@@ -81,6 +102,7 @@ export default function Navigation({ activeSection,category }: NavigationProps) 
                   placeholder={t('search')}
                   type="text"
                   name="input"
+                  onChange={handleSearchChange}
               />
               <div className="absolute bottom-0 right-0 mr-3 flex h-9 w-9 items-center justify-center">
                 <svg
