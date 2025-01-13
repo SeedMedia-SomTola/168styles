@@ -137,8 +137,8 @@ export default function Navigation({ searchParams,containScroll }: NavigationPro
 
   const getLinkClass = (section: string) =>
       activeSection === section
-          ? "rounded-full border-2 border-[#eb1c25] px-3 py-1 bg-[#eb1c25]/20 text-[#eb1c25] group-hover:bg-[#eb1c25]/20 group-hover:text-[#eb1c25]"
-          : "rounded-full border-2 border-[#eb1c25] px-3 py-1 text-[#000000] group-hover:bg-[#eb1c25]/20 group-hover:text-[#eb1c25]";
+          ? "rounded-full border-2 border-[#eb1c25] px-3 py-1 bg-[#eb1c25]/20 text-[#eb1c25] transition-all duration-[300ms]"
+          : "rounded-full border-2 border-[#eb1c25] px-3 py-1 text-[#000000] transition-all duration-[300ms]";
 
   const capitalize = (str: string): string =>
       str

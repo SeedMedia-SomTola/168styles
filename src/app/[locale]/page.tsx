@@ -223,62 +223,83 @@ export default function Home() {
                         </button>
                       </form>
                       <div className="w-full">
-                        <Swiper
-                            pagination={{
-                              dynamicBullets: true,  // Enable dynamic bullets
-                            }}
-                            modules={[Pagination]}
-                            className="mySwiper"
-                        >
-                          <SwiperSlide>
+                        {item.image_display_1 === '' && item.image_display_2 === '' && item.image_display_3 === '' && item.image_display_4 === '' && item.image_display_5 === ''?
                             <Image
                                 src={item.image_url}
                                 alt={item.item_name}
                                 width={1760} height={2000}
                                 className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
                             />
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <Image
-                                src={item.image_display_1}
-                                alt={item.item_name}
-                                width={1760} height={2000}
-                                className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
-                            />
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <Image
-                                src={item.image_display_2}
-                                alt={item.item_name}
-                                width={1760} height={2000}
-                                className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
-                            />
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <Image
-                                src={item.image_display_3}
-                                alt={item.item_name}
-                                width={1760} height={2000}
-                                className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
-                            />
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <Image
-                                src={item.image_display_4}
-                                alt={item.item_name}
-                                width={1760} height={2000}
-                                className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
-                            />
-                          </SwiperSlide>
-                          <SwiperSlide>
-                            <Image
-                                src={item.image_display_5}
-                                alt={item.item_name}
-                                width={1760} height={2000}
-                                className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
-                            />
-                          </SwiperSlide>
-                        </Swiper>
+                            :
+                            <Swiper
+                                pagination={{
+                                  dynamicBullets: true,  // Enable dynamic bullets
+                                }}
+                                modules={[Pagination]}
+                                className="mySwiper"
+                            >
+                              {item.image_url === '' ? '' :
+                              <SwiperSlide>
+                                <Image
+                                    src={item.image_url}
+                                    alt={item.item_name}
+                                    width={1760} height={2000}
+                                    className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
+                                />
+                              </SwiperSlide>
+                              }
+                              {item.image_display_1 === '' ? '' :
+                              <SwiperSlide>
+                                <Image
+                                    src={item.image_display_1}
+                                    alt={item.item_name}
+                                    width={1760} height={2000}
+                                    className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
+                                />
+                              </SwiperSlide>
+                              }
+                              {item.image_display_2 === '' ? '' :
+                              <SwiperSlide>
+                                <Image
+                                    src={item.image_display_2}
+                                    alt={item.item_name}
+                                    width={1760} height={2000}
+                                    className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
+                                />
+                              </SwiperSlide>
+                              }
+                              {item.image_display_3 === '' ? '' :
+                              <SwiperSlide>
+                                <Image
+                                    src={item.image_display_3}
+                                    alt={item.item_name}
+                                    width={1760} height={2000}
+                                    className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
+                                />
+                              </SwiperSlide>
+                              }
+                              {item.image_display_4 === '' ? '' :
+                              <SwiperSlide>
+                                <Image
+                                    src={item.image_display_4}
+                                    alt={item.item_name}
+                                    width={1760} height={2000}
+                                    className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
+                                />
+                              </SwiperSlide>
+                              }
+                              {item.image_display_5 === '' ? '' :
+                              <SwiperSlide>
+                                <Image
+                                    src={item.image_display_5}
+                                    alt={item.item_name}
+                                    width={1760} height={2000}
+                                    className="w-full h-[46vh] md:h-[40vh] xl:h-[50vh] object-cover object-center"
+                                />
+                              </SwiperSlide>
+                              }
+                            </Swiper>
+                        }
                       </div>
                       <div className="relative flex flex-col items-start justify-end bg-white p-2">
                         <strong
