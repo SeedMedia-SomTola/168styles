@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider, KeenSliderInstance, KeenSliderOptions } from "keen-slider/react"
 import "./styles/styles.css"
@@ -16,13 +16,20 @@ import { useState } from 'react';
 export default function Slidder() {
       const [details, setDetails] = useState<KeenSliderInstance["track"]["details"] | null>(null)
 
-  const [sliderRef] = useKeenSlider<HTMLDivElement>({
-    loop: true,
+  const [sliderRef,sliderInstance] = useKeenSlider<HTMLDivElement>({
+    loop: true, initial: 2,
     detailsChanged(s) {
       setDetails(s.track.details)
     },
-    initial: 2,
   } as KeenSliderOptions)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            sliderInstance.current?.next(); // Automatically navigate to the next slide
+        }, 5000); // Change slide every 3 seconds
+
+        return () => clearInterval(interval); // Cleanup interval on component unmount
+    }, [sliderInstance]);
 
   const scaleStyle = (idx: number) => {
     if (!details) return {}

@@ -15,3 +15,8 @@
   object-fit: cover;
   position: absolute;
 }
+
+.swiper-pagination-bullet-active,.swiper-pagination-bullet{
+  background:#8d1317 !important;
+  opacity: 1 !important;
+}

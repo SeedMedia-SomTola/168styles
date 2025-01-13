@@ -1,29 +1,134 @@
 'use client';
-
 import Button from "./Button";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import {useMemo, useState} from "react";
+import React, {RefObject, useEffect, useMemo, useState} from "react";
 
+interface Category {
+  _RowNumber: number;
+  cate_id: string;
+  cate_name: string;
+  related_items: {
+    "id": string;
+  };
+}
+
+interface Products {
+  _RowNumber: number;
+  item_id: string;
+  item_name: string;
+  description: string;
+  size: string;
+  color: string;
+  category: string;
+  unit: string;
+  unit_price: string;
+  current_stock: string;
+  image: string;
+  image_url: string;
+  image_display_1:string;
+  image_display_2:string;
+  image_display_3:string;
+  image_display_4:string;
+  image_display_5:string;
+}
 interface NavigationProps {
-  activeSection:string;
-  category: {
-    _RowNumber: number;
-    cate_id: string;
-    cate_name: string;
-    related_items: {
-      id: string;
-    };
-  }[] | null;
   searchParams:(data:string) => void;
+  containScroll:RefObject<HTMLDivElement | null>;
 }
 
 const logo =
     'https://www.appsheet.com/fsimage.png?appid=4847193e-4ce7-426f-92df-d5fed06513c0&datasource=google&filename=DocId%3D1EkQLqTzlIJlP-fJ7xIw83w8EDdB1Mrya&signature=ad96eb3f66e70c2917227e9c6b9f915e3fd86982be99ad6a2b2956bc9de20306&tableprovider=google&userid=935036077';
 
-export default function Navigation({activeSection, category,searchParams }: NavigationProps) {
+export default function Navigation({ searchParams,containScroll }: NavigationProps) {
   const t = useTranslations('Navigation');
   const [params, setSearchParam] = useState<string>();
+  const [category, setCategory] = useState<Category[] | null>(null);
+  const [data, setData] = useState<Products[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeSection, setActiveSection] = useState<string>("section_49e94e32");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch("/api/data?tableName=category");
+        if (!res.ok) {
+          throw new Error("Failed to fetch data from AppSheet");
+        }
+
+        const result: Category[] = await res.json();
+        setCategory(result);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const fetchDataPro = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch("/api/data?tableName=item");
+        if (!res.ok) {
+          throw new Error("Failed to fetch data from AppSheet");
+        }
+
+        const result: Products[] = await res.json();
+        setData(result);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDataPro();
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const scrollContainer = containScroll.current;
+
+    const handleScroll = (): void => {
+      if (!scrollContainer) return;
+
+      const sections = Array.from(scrollContainer.getElementsByClassName("section")) as HTMLElement[];
+
+      if (sections.length === 0) {
+        return;
+      }
+
+      let current: string = "section_49e94e32"; // Default section
+      sections?.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+
+        if (rect.top <= 180 && rect.top + rect.height > 0) {
+          current = section.getAttribute("id") || current;
+        }
+      });
+
+      setActiveSection(current);
+    };
+
+    if (scrollContainer) {
+      // Initial scroll check
+      handleScroll();
+
+      // Attach scroll event listener
+      scrollContainer.addEventListener("scroll", handleScroll);
+    } else {
+      console.warn('Scroll container is not defined.');
+    }
+
+    // Cleanup the event listener on unmount
+    return () => {
+      scrollContainer?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     searchParams(query);
@@ -50,11 +155,18 @@ export default function Navigation({activeSection, category,searchParams }: Navi
   };
 
   const filteredData = useMemo(() => {
-    if (!category) return [];
-    return category.filter((cat) =>
-        params ? cat.cate_name.toLowerCase().includes(params.toLowerCase()) : true
+    if (!data) return [];
+    return data.filter((product) =>
+        params ? product.item_name.toLowerCase().includes(params.toLowerCase()) : true
     );
-  }, [category, params]);
+  }, [data, params]);
+
+  if (isLoading) {
+    return ('');
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
       <nav className="bg-white w-full p-3 z-50 max-w-screen-lg overflow-hidden">
@@ -68,22 +180,22 @@ export default function Navigation({activeSection, category,searchParams }: Navi
 
         <div>
           <ul className="flex space-x-2 overflow-x-auto py-4">
-            {/* Add null check to prevent accessing data if it's still null */}
             {filteredData.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full">
-                      <h2 className="text-[12px] font-semibold text-gray-700">Search not found!</h2>
-                    </div>
-                )  :
-                (
-                    filteredData.map((section,idx) => (
-                        <li key={section.cate_id} className="cursor-pointer whitespace-nowrap rounded-lg">
+                  <h2 className="text-sm text-center font-semibold text-gray-700">Data not exist!</h2>
+            ) : (
+                category
+                    ?.filter((cate) =>
+                        filteredData.some((item) => item.category === cate.cate_id) // Check if any items match the category ID
+                    )
+                    .map((cate) => (
+                        <li key={cate.cate_id} className="cursor-pointer whitespace-nowrap rounded-lg">
                           <button
-                              onClick={() => scrollToSection(`section_${idx}`)}
+                              onClick={() => scrollToSection(`section_${cate.cate_id}`)}
                               className="transition-all group"
                           >
-                            <div className={getLinkClass(`section_${idx}`)}>
+                            <div className={getLinkClass(`section_${cate.cate_id}`)}>
                                 <span className="text-[18px] text-center font-semibold decoration-[#fcd28a] decoration-[3px] underline-offset-4">
-                                  {capitalize(section.cate_name)}
+                                  {capitalize(cate.cate_name)}
                                 </span>
                             </div>
                           </button>
