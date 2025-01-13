@@ -121,7 +121,7 @@ export default function Home() {
 
   if (isLoading) {
     return <div className="flex flex-col justify-center items-center overflow-hidden fixed inset-0 text-center text-gray-500 z-[50]">
-      <span className="loading loading-bars loading-lg"></span>
+      <span className="loading loading-spinner text-error"></span>
     </div>;
   }
   if (error) {
