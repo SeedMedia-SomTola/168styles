@@ -213,11 +213,7 @@ export default function Home() {
   };
 
   const onCloseModal = () => {
-    setCustomer('');
-    setPhone('');
-    setAddress('');
-    setSelectedSize('');
-    setSelectedColor('');
+    window.location.reload();
   }
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
