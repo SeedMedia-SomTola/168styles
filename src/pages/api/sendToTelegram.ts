@@ -8,14 +8,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    const { selectedSize, selectedColor, qtyChange, productId, productName, productPrice } = req.body;
+    const { selectedSize, selectedColor, qtyChange, productId, productName, productPrice, phone, customer, address } = req.body;
 
-    if (!qtyChange && !productId && !productName && !productPrice) {
+    if (!qtyChange && !productId && !productName && !productPrice && !phone && !customer && !address) {
         return res.status(400).json({ message: 'Message is required' });
     }
 
     const message = `
     📦 *New Product Information* 📦
+    - 📇 *Customer Name:* ${customer}
+    - 📞 *Phone:* ${phone}
+    - 📍 *Address:* ${address}
+    - =============================
     - 🆔 *Product ID:* ${productId}
     - 🏷️ *Name:* ${productName}
     - 📏 *Size:* ${selectedSize || 'N/A'}

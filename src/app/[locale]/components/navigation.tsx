@@ -173,7 +173,7 @@ export default function Navigation({ searchParams,containScroll }: NavigationPro
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image src={logo} width="3000" height="2000" alt="logo" className="w-[32px] h-[32px]"/>
-            <h1 className=" font-[700] text-[24px] text-black">168 Styles</h1>
+            <h1 className=" font-[700] text-[24px] text-black">168styles</h1>
           </div>
           <Button />
         </div>

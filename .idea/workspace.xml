@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb6696f6-4e9f-4d7b-82a3-9411cf425679" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/api/sendToTelegram.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/postDataToAppSheet.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env.local" beforeDir="false" afterPath="$PROJECT_DIR$/.env.local" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messages/kh.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/kh.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/components/Slidder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/components/Slidder.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/[locale]/components/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/components/navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/[locale]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/sendToTelegram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/sendToTelegram.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,23 +34,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/haru/Documents/Personal-Local/168styles/messages&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/haru/Documents/Personal-Local/168styles/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/haru/Documents/Personal-Local/168styles/src/pages/api",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Users/haru/Documents/Personal-Local/168styles/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/pages/api" />
       <recent name="$PROJECT_DIR$/messages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -76,7 +77,7 @@
       <workItem from="1736429583460" duration="1726000" />
       <workItem from="1736470644692" duration="28961000" />
       <workItem from="1736730734687" duration="24495000" />
-      <workItem from="1736815907390" duration="14710000" />
+      <workItem from="1736815907390" duration="24427000" />
     </task>
     <servers />
   </component>

@@ -6,15 +6,35 @@ import "./styles/styles.css"
 import Image from 'next/image';
 import { useState } from 'react';
 
-    const images = [
-        "https://images.unsplash.com/photo-1590004953392-5aba2e72269a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=500&w=800&q=80",
-        "https://images.unsplash.com/photo-1590004845575-cc18b13d1d0a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=500&w=800&q=80",
-        "https://images.unsplash.com/photo-1590004987778-bece5c9adab6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=500&w=800&q=80",
-        "https://images.unsplash.com/photo-1590005176489-db2e714711fc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=500&w=800&q=80",
-    ]
+interface Business {
+    name:string;
+    image_url:string;
+}
 
 export default function Slidder() {
-      const [details, setDetails] = useState<KeenSliderInstance["track"]["details"] | null>(null)
+        const [details, setDetails] = useState<KeenSliderInstance["track"]["details"] | null>(null)
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState<Business[] | null>(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const res = await fetch("/api/data?tableName=business");
+                if (!res.ok) {
+                    throw new Error("Failed to fetch data from AppSheet");
+                }
+
+                const result: Business[] = await res.json();
+                setData(result);
+            } catch (err) {
+                setError((err as Error).message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
 
   const [sliderRef,sliderInstance] = useKeenSlider<HTMLDivElement>({
     loop: true, initial: 2,
@@ -41,16 +61,24 @@ export default function Slidder() {
       WebkitTransform: `scale(${scale})`,
     }
   }
+    if (isLoading) {
+        return <div className="flex flex-col justify-center items-center overflow-hidden fixed inset-0 text-center text-gray-500 z-[50]">
+            <span className="loading loading-spinner text-error"></span>
+        </div>;
+    }
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
     <div ref={sliderRef} className="keen-slider my-3 zoom-out ">
-      {images.map((images, idx) => (
+      {data && data.map((images, idx) => (
         <div key={idx} className="keen-slider__slide zoom-out_slide">
         <div style={scaleStyle(idx)}>
             <Image
-            src={images}
+            src={images.image_url}
             width={1760} height={2000}
-            alt={`slider ${idx + 1}`}
+            alt={images.name}
             className="rounded-xl w-full h-[200px] md:h-[400px] object-cover"
             />
         </div>
