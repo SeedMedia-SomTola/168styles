@@ -635,7 +635,7 @@ export default function Home() {
                                 onChange={(e) =>
                                   setQtyChange(Number(e.target.value))
                                 }
-                                className="h-10 w-16 border-transparent text-black text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                                className="h-10 w-12 border-transparent text-black text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
                               />
 
                               <button
@@ -680,11 +680,11 @@ export default function Home() {
                           ) : (
                             ""
                           )}
-                          <div className={qtyChange === 0 ? 'hidden':"flex flex-col justify-center pb-4 items-end"}>
+                          <div className={qtyChange === 0 ? 'hidden':"flex flex-col justify-center pb-4 items-start"}>
                             <button
                                 onClick={handleToggle}
                                 type="button"
-                                className="group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring-none active:text-red-500"
+                                className="ms-1 group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring-none active:text-red-500"
                             >
                               <span className="absolute inset-0 border border-current"></span>
                               <span className="flex items-center gap-3 block border border-current bg-white px-6 py-1 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1">
@@ -694,20 +694,23 @@ export default function Home() {
 
                             <div   className={`${
                                 modalToggle ? 'block' : 'hidden'
-                            } p-5 space-y-5 bg-gray-300 w-full absolute bottom-[-15%] left-0 right-0 h-[200%] z-[50] rounded-tr-xl rounded-tl-xl transition-all duration-[300ms] ease-out-in !text-black`} >
+                            } p-5 space-y-5 bg-gray-300 w-full absolute bottom-[-15%] left-0 right-0 h-[170%] z-[50] rounded-tr-xl rounded-tl-xl transition-all duration-[300ms] ease-out-in !text-black`} >
                               <button onClick={handleToggle} type="button" className="btn btn-xs text-red-500 btn-circle btn-ghost absolute right-2 top-2 z-[30]">
                                 ✕
                               </button>
 
-                              <div className="space-y-2">
-                                <span className="text-black">ID: <b className="font-[200] text-success">{productId}</b> </span><br/><hr/>
-                                <span className="text-black">Product Name: <b className="font-[200] text-success">{productName}</b> </span><br/><hr/>
-                                <span className="text-black">Price: <b className="font-[200] text-success">{formatCurrency(productPrice)}</b> </span><br/><hr/>
-                                <span className="text-black">Quantity: <b className="font-[200] text-success">{qtyChange}</b> </span><br className={selectedSize === ''? 'hidden': 'block'}/><hr className={selectedSize === ''? 'hidden': 'block'}/>
-                                <span className={selectedSize === '' ? 'hidden':"text-black"}>Size: <b className="font-[200] text-success">{selectedSize}</b> </span><br className={selectedColor === ''? 'hidden': 'block'}/><hr className={selectedColor === ''? 'hidden': 'block'}/>
-                                <span className={selectedColor === '' ? 'hidden': "text-black"}>Color: <b className="font-[200] text-success">{selectedColor}</b> </span><br/><hr/>
+                              <div>
+                                <div className="mb-2">
+                                  <span className="text-[12px] text-black">ID: <b className="text-[13px] !text-end font-[200] text-[#eb1c25]">{productId}</b> </span><br/>
+                                  <span className="text-[12px] text-black">Product Name: <b className="text-[13px] !text-end font-[200] text-[#eb1c25]">{productName}</b> </span><br/>
+                                  <span className="text-[12px] text-black">Price: <b className="text-[13px] !text-end font-[200] text-[#eb1c25]">{formatCurrency(productPrice)}</b> </span><br/>
+                                  <span className="text-[12px] text-black">Quantity: <b className="text-[13px] !text-end font-[200] text-[#eb1c25]">{qtyChange}</b> </span><br className={selectedSize === ''? 'hidden': 'block'}/>
+                                  <span className={selectedSize === '' ? 'hidden':"text-[12px] text-black"}>Size: <b className="text-[13px] !text-end font-[200] text-[#eb1c25]">{selectedSize}</b> </span><br className={selectedColor === ''? 'hidden': 'block'}/>
+                                  <span className={selectedColor === '' ? 'hidden': "text-[12px] text-black"}>Color: <b className="text-[13px] !text-end font-[200] text-[#eb1c25]">{selectedColor}</b> </span><br/>
+                                </div>
+                                <hr className="text-white py-1"/>
                                 <strong>
-                                  <p className="text-success font-bold mt-2">
+                                  <p className="text-[#eb1c25] font-bold mt-2">
                                       <span className="font-light text-black">
                                         Total: {" "}
                                       </span>
