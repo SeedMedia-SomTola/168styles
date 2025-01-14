@@ -203,17 +203,23 @@ export default function Home() {
     } finally {
       setAlert("");
       setBtnLoading(true);
-      setModalToggle(false);
+      setModalToggle(true);
       setCustomer('');
       setPhone('');
       setAddress('');
       setSelectedSize('');
       setSelectedColor('');
+      setQtyChange(0);
     }
   };
 
   const onCloseModal = () => {
-    window.location.reload();
+    setCustomer('');
+    setPhone('');
+    setAddress('');
+    setSelectedSize('');
+    setSelectedColor('');
+    setQtyChange(0);
   }
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
