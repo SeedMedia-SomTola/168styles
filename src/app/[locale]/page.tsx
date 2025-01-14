@@ -204,9 +204,21 @@ export default function Home() {
       setAlert("");
       setBtnLoading(true);
       setModalToggle(false);
+      setCustomer('');
+      setPhone('');
+      setAddress('');
+      setSelectedSize('');
+      setSelectedColor('');
     }
   };
 
+  const onCloseModal = () => {
+    setCustomer('');
+    setPhone('');
+    setAddress('');
+    setSelectedSize('');
+    setSelectedColor('');
+  }
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -337,7 +349,7 @@ export default function Home() {
                 >
                   <div className="modal-box !p-0 !m-0 !relative !h-[80vh] !bg-gray-100 md:!h-[60vh] xl:!h-[76vh]">
                     <form method="dialog">
-                      <button className="btn btn-xs text-red-500 btn-circle btn-ghost absolute right-2 top-2 z-[30]">
+                      <button onClick={onCloseModal} className="btn btn-xs text-red-500 btn-circle btn-ghost absolute right-2 top-2 z-[30]">
                         ✕
                       </button>
                     </form>
