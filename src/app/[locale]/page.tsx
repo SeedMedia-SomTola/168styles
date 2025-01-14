@@ -729,6 +729,7 @@ export default function Home() {
                                     name="name"
                                     value={customer}
                                     onChange={(e)=>setCustomer(e.target.value)}
+                                    required
                                 />
                               </div>
 
@@ -741,6 +742,7 @@ export default function Home() {
                                     id="phone"
                                     value={phone}
                                     onChange={(e)=>setPhone(e.target.value)}
+                                    required
                                 />
                               </div>
                               <div>
@@ -752,6 +754,7 @@ export default function Home() {
                                     name="address"
                                     value={address}
                                     onChange={(e)=>setAddress(e.target.value)}
+                                    required
                                 ></textarea>
                               </div>
 
