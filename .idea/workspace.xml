@@ -5,6 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bb6696f6-4e9f-4d7b-82a3-9411cf425679" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pages/api/sendToTelegram.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.local" beforeDir="false" afterPath="$PROJECT_DIR$/.env.local" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messages/kh.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/kh.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/components/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/components/navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/[locale]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +75,8 @@
       <workItem from="1736421367812" duration="4026000" />
       <workItem from="1736429583460" duration="1726000" />
       <workItem from="1736470644692" duration="28961000" />
-      <workItem from="1736730734687" duration="24454000" />
+      <workItem from="1736730734687" duration="24495000" />
+      <workItem from="1736815907390" duration="14710000" />
     </task>
     <servers />
   </component>

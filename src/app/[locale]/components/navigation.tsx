@@ -169,7 +169,7 @@ export default function Navigation({ searchParams,containScroll }: NavigationPro
   }
 
   return (
-      <nav className="bg-white w-full p-3 z-50 max-w-screen-lg overflow-hidden">
+      <nav className="bg-white w-full p-3 z-50 max-w-screen-lg">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image src={logo} width="3000" height="2000" alt="logo" className="w-[32px] h-[32px]"/>

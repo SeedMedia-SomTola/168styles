@@ -1,5 +1,5 @@
 'use client';
-import {useEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import Navigation from './components/navigation';
 import Slidder from './components/Slidder';
 import Image from "next/image";
@@ -21,16 +21,13 @@ interface Category {
 }
 
 interface Products {
-  _RowNumber: number;
   item_id: string;
   item_name: string;
   description: string;
   size: string;
   color: string;
   category: string;
-  unit: string;
-  unit_price: string;
-  current_stock: string;
+  unit_price: number;
   image: string;
   image_url: string;
   image_display_1:string;
@@ -49,6 +46,16 @@ export default function Home() {
   const [data, setData] = useState<Products[] | null>(null);
   const t = useTranslations('Home');
   const [params, setParams] = useState<string>();
+
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [qtyChange, setQtyChange] = useState<number>(0);
+  const [productId, setProductId] = useState<string>('');
+  const [productName, setProductName] = useState<string>('');
+  const [productPrice, setProductPrice] = useState<number>(0);
+
+  const [btnLoading, setBtnLoading] = useState(true);
+  const [alert, setAlert] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,6 +95,16 @@ export default function Home() {
     fetchDataPro();
     fetchData();
   }, []);
+
+  useEffect(() => {
+    data?.map((items) => {
+      if (items.item_id === modelId){
+        setProductId(items.item_id);
+        setProductName(items.item_name);
+        setProductPrice(items.unit_price);
+      }
+    })
+  })
   const showModal = (id: string): void => {
     const elementId = `my_modal_${id}`;
     setModelId(id);
@@ -118,6 +135,58 @@ export default function Home() {
         params ? product.item_name.toLowerCase().includes(params.toLowerCase()) : true
     );
   }, [data, params]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if(qtyChange === 0){
+      setAlert('Please set Quantity. Can not empty!');
+      setTimeout(()=> {
+        setAlert('');
+      },3000)
+      return;
+    };
+
+    setBtnLoading(false);
+    try {
+      const res = await fetch('/api/sendToTelegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          selectedSize,
+          selectedColor,
+          qtyChange,
+          productId,
+          productName,
+          productPrice,
+        }),
+      });
+      console.log(res);
+      const data = await res.json();
+
+      if (res.ok) {
+        setAlert('Message sent successfully!');
+      } else {
+        setAlert(`Error: ${data.message}`);
+      }
+    }catch (error){
+      setAlert('An error occurred while sending the message.');
+      console.error(error);
+    }finally {
+      setAlert('');
+      setBtnLoading(true);
+    }
+  }
+
+  const formatCurrency = (value:number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
+  };
+
 
   if (isLoading) {
     return <div className="flex flex-col justify-center items-center overflow-hidden fixed inset-0 text-center text-gray-500 z-[50]">
@@ -180,16 +249,16 @@ export default function Home() {
                                             key={items.item_id}
                                             className="col-span-6 group relative block overflow-hidden rounded-lg md:rounded-xl shadow-md"
                                         >
-                                          <strong className="absolute start-2 top-2 z-10 rounded-md bg-red-500 px-1 text-white transition">
+                                          <strong className="absolute start-2 top-2 z-10 rounded-md bg-red-500 px-2 text-white transition">
                                             <span className="sr-only">Wishlist</span>
-                                            <b className="text-[12px] pb-[2px]">{t('promotion')}</b>
+                                            <b className="text-[12px]">{t('promotion')}</b>
                                           </strong>
                                           <Image
                                               src={items.image_url}
                                               alt={items.item_name}
                                               width={1760}
                                               height={2000}
-                                              className="h-[20vh] md:h-[50vh] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+                                              className="h-[24vh] md:h-[50vh] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                                           />
                                           <div className="relative border border-gray-100 bg-white p-2 md:p-6 text-start">
                                             <p className="text-gray-400 text-[12px] md:text-[14px]">
@@ -199,9 +268,9 @@ export default function Home() {
                                               {items.item_name}
                                             </h3>
                                             <span className="text-gray-400 line-through text-[14px] decoration-red-500">
-                      ${items.unit_price}
-                    </span>
-                                            <p className="text-gray-700"> ${items.unit_price}</p>
+                                                {formatCurrency(items.unit_price)}
+                                              </span>
+                                            <p className="text-gray-700"> {formatCurrency(items.unit_price)}</p>
                                           </div>
                                         </button>
                                     )
@@ -216,10 +285,10 @@ export default function Home() {
             if (item.item_id === modelId) {
               return (
                   <dialog id={`my_modal_${modelId}`} className="modal !p-0 !m-0" key={item.item_id}>
-                    <div className="modal-box !p-0 !m-0 !relative !h-[80vh] md:!h-[60vh] xl:!h-[76vh]">
+                    <div className="modal-box !p-0 !m-0 !relative !h-[80vh] !bg-gray-100 md:!h-[60vh] xl:!h-[76vh]">
                       <form method="dialog">
                         <button
-                            className="btn btn-sm text-red-500 btn-circle btn-ghost absolute right-2 top-2 z-[30]">✕
+                            className="btn btn-xs text-red-500 btn-circle btn-ghost absolute right-2 top-2 z-[30]">✕
                         </button>
                       </form>
                       <div className="w-full">
@@ -301,7 +370,7 @@ export default function Home() {
                             </Swiper>
                         }
                       </div>
-                      <div className="relative flex flex-col items-start justify-end bg-white p-2">
+                      <div className="relative flex flex-col items-start justify-end bg-gray-100 p-4">
                         <strong
                             className="my-2 start-2 top-2 z-10 rounded-md bg-red-500/30 px-1 text-red-500 transition">
                           <span className="sr-only">Wishlist</span>
@@ -309,7 +378,10 @@ export default function Home() {
                         </strong>
                         <div className="flex flex-col items-start gap-2">
                           <span
-                              className="text-gray-400 line-through text-[14px] decoration-red-500">${item.unit_price}</span>
+                              className="text-gray-400 line-through text-[14px] decoration-red-500"> {formatCurrency(item.unit_price)}</span>
+                          <b className="text-[14px] font-[600] text-gray-700 uppercase">
+                            {formatCurrency(item.unit_price)}
+                          </b>
                           <strong className="text-[14px] text-red-500 uppercase">
                             ID: {item.item_id}
                           </strong>
@@ -324,12 +396,162 @@ export default function Home() {
                           </span>
                             ))}
                           </p>
-                          <p className="text-[14px] text-light text-gray-700 text-balance">
-                            {item.color} {item.size}
-                          </p>
+                          <form onSubmit={handleSubmit} className="flex flex-col gap-4 justify-center items-start">
+                            <input
+                                type="text"
+                                name="proId"
+                                value={productId}
+                                id="proId"
+                                className="hidden"
+                                onChange={(e) => setProductId(e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                name="proId"
+                                value={productName}
+                                id="proId"
+                                className="hidden"
+                                onChange={(e) => setProductName(e.target.value)}
+                            />
+                            <input
+                                type="number"
+                                name="proId"
+                                value={productPrice}
+                                id="proId"
+                                className="hidden"
+                                onChange={(e) => setProductPrice(Number(e.target.value))}
+                            />
+                            {item.size === '' ? '':
+                            <fieldset className="flex flex-wrap gap-3">
+                              <legend className="hidden">Size</legend>
+
+                              {item.size.split(',').map((size, index) => {
+                                const trimmedSize = size.trim();
+                                const sizeId = `Size${trimmedSize.replace(/\s+/g, '')}`; // Generate unique ID
+
+                                return (
+                                    <label
+                                        key={index}
+                                        htmlFor={sizeId}
+                                        className="flex cursor-pointer items-center justify-center rounded-md border border-gray-100 bg-white px-2 py-1 text-gray-900 hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white"
+                                    >
+                                      <input
+                                          type="radio"
+                                          name="sizeOption"
+                                          value={trimmedSize}
+                                          id={sizeId}
+                                          className="hidden"
+                                          checked={selectedSize === trimmedSize} // Controlled by React state
+                                          onChange={(e) => setSelectedSize(e.target.value)} // Update state on change
+                                      />
+                                      <span className="text-[14px] text-black">{trimmedSize}</span>
+                                    </label>
+                                );
+                              })}
+                            </fieldset>
+                            }
+                            {item.color === '' ? '':
+                            <fieldset className="flex flex-wrap gap-3">
+                              <legend className="hidden">Color</legend>
+
+                              {item.color.split(',').map((color, index) => {
+                                const trimmedColor = color.trim();
+                                const colorId = `Color${trimmedColor.replace(/\s+/g, '')}`; // Generate unique ID
+
+                                return (
+                                    <label
+                                        key={index}
+                                        htmlFor={colorId}
+                                        className={`block size-5 cursor-pointer rounded-full shadow-sm has-[:checked]:ring-2 
+                                        has-[:checked]:ring-${trimmedColor.toLowerCase()} 
+                                        has-[:checked]:ring-offset-2`}
+                                        style={{ backgroundColor: trimmedColor.toLowerCase() }}
+                                    >
+                                      <input
+                                          type="radio"
+                                          name="colorOption"
+                                          value={trimmedColor}
+                                          id={colorId}
+                                          className="hidden"
+                                          checked={selectedColor === trimmedColor} // Controlled by React state
+                                          onChange={(e) => setSelectedColor(e.target.value)} // Update state on change
+                                      />
+                                      <span className="hidden">{trimmedColor}</span>
+                                    </label>
+                                );
+                              })}
+                            </fieldset>
+                            }
+                            <div>
+                              <label htmlFor="qty" className="hidden"> Quantity </label>
+
+                              <div className="flex justify-center items-center rounded border border-gray-400">
+                                <button
+                                    onClick={() => setQtyChange(prevState => prevState -= 1)}
+                                    disabled={qtyChange <= 0 ? true : false}
+                                    type="button" className="size-10 leading-10 text-white transition hover:opacity-75">
+                                  <svg className="mx-auto text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" width="14" height="14" strokeWidth="1">
+                                    <path d="M5 12l14 0"></path>
+                                  </svg>
+                                </button>
+
+                                <input
+                                    type="number"
+                                    id="qty"
+                                    name="qty"
+                                    value={qtyChange}
+                                    onChange={(e) => setQtyChange(Number(e.target.value))}
+                                    className="h-10 w-16 border-transparent text-black text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                                />
+
+                                <button
+                                    onClick={() => setQtyChange((nextState) => nextState += 1)}
+                                    type="button" className="size-10 leading-10 text-white transition hover:opacity-75">
+                                  <svg className="mx-auto text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="14" height="14" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" stroke="#000000">
+                                    <path d="M12 5l0 14"></path>
+                                    <path d="M5 12l14 0"></path>
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                            {alert ?
+                                <div role="alert" className="rounded border-s-4 border-red-500 bg-red-50 p-2">
+                                  <strong className="block text-[12px]  font-medium text-red-800"> Something went wrong </strong>
+
+                                  <p className=" text-[11px] text-red-700">
+                                    {alert}
+                                  </p>
+                                </div>
+                                :
+                            ""
+                            }
+                            <div className="flex flex-col justify-center pb-4">
+                              <button
+                                  type="submit"
+                                  disabled={!btnLoading}
+                                  className="group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring-none active:text-red-500">
+                                <span className="absolute inset-0 border border-current"></span>
+                                {!btnLoading ?
+                                    <span  className="flex items-center gap-3 block border border-current bg-white px-12 py-2 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1">
+                                       <span className="loading loading-spinner"></span>
+                                     Loading
+                                    </span>
+                                            :
+                                            <span
+                                                className="flex items-center gap-3 block border border-current bg-white px-12 py-2 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"
+                                            >
+                                    <p className="border-r-2 p-1">
+                                    Total: {formatCurrency(productPrice * qtyChange)}
+                                    </p>
+                                    Order Now
+                                    </span>
+                                    }
+                              </button>
+                            </div>
+                          </form>
                         </div>
                       </div>
-                      <div className="relative flex items-center justify-center gap-3 bg-white pb-3">
+                      <div className="relative flex items-center justify-center gap-3 pb-3">
                         <Link href="#">
                           <Image src="/assets/images/facebook.png" alt="kh-flag" width="3000" height="2000"
                                  className="w-[24px] h-[24px] rounded-[4px]"/>
@@ -350,7 +572,7 @@ export default function Home() {
                       </div>
                     </div>
                   </dialog>
-              );
+              )
             }
               return null;
             })}
@@ -362,6 +584,5 @@ export default function Home() {
           </footer>
         </div>
       </div>
-  );
+  )
 }
-
