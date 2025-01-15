@@ -608,7 +608,7 @@ export default function Home() {
                               Quantity{" "}
                             </label>
 
-                            <div className="flex justify-start items-center w-[15vh] rounded border border-gray-400 mb-3">
+                            <div className="flex justify-start items-center w-[13vh] rounded border border-gray-400 mb-3">
                               <button
                                 onClick={() =>
                                   setQtyChange((prevState) => (prevState -= 1))
@@ -686,14 +686,15 @@ export default function Home() {
                           ) : (
                             ""
                           )}
-                          <div className={qtyChange === 0 ? 'hidden':"flex flex-col justify-center pb-4 items-start"}>
+                          <div className={"flex flex-col justify-center pb-4 items-center"}>
                             <button
-                                onClick={handleToggle}
+                                disabled={qtyChange === 0 }
+                            onClick={handleToggle}
                                 type="button"
-                                className="ms-1 group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring-none active:text-red-500"
+                                className={qtyChange === 0 ? 'rounded-sm  ms-1 group relative inline-block text-sm font-medium focus:outline-none focus:ring-none text-red-400' : "rounded-sm  ms-1 group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring-none active:text-red-500"}
                             >
-                              <span className="absolute inset-0 border border-current"></span>
-                              <span className="flex items-center gap-3 block border border-current bg-white px-6 py-1 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1">
+                              <span className="absolute inset-0 border border-current rounded-sm "></span>
+                              <span className={qtyChange === 0 ? "rounded-sm flex items-center gap-3 block border border-current bg-gray-200 px-8 py-2 transition-transform cursor-not-allowed group-hover:-translate-x-0 group-hover:-translate-y-0":"rounded-sm  flex items-center gap-3 block border border-current bg-white px-8 py-2 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"}>
                                   Check out
                                 </span>
                             </button>
