@@ -60,6 +60,7 @@ export default function Home() {
   const [btnLoading, setBtnLoading] = useState(true);
   const [modalToggle, setModalToggle] = useState(false);
   const [alert, setAlert] = useState<string | null>(null);
+  const [lang, setLang] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,7 +96,8 @@ export default function Home() {
         setIsLoading(false);
       }
     };
-
+    const localeEn = localStorage.getItem('locale');
+    setLang(localeEn);
     fetchDataPro();
     fetchData();
   }, []);
@@ -302,11 +304,11 @@ export default function Home() {
                           key={items.item_id}
                           className="col-span-6 group relative block overflow-hidden rounded-lg md:rounded-xl shadow-md"
                         >
-                          <strong className="absolute start-2 top-2 z-10 rounded-md bg-red-500 px-2 text-white transition">
+                          <strong className={items.sale_price <= 0 ? "sr-only":"absolute start-2 top-2 z-10 rounded-md bg-red-500 px-2 pb-2 pt-1 text-white transition"}>
                             <span className="sr-only">Wishlist</span>
-                            <b className="text-[12px] sr-only">
-                              {t("promotion")}
-                            </b>
+                               <b className="text-[12px]">
+                                <b className={lang !== 'en' ? 'text-[12px]' : "sr-only"}>{t("promotion")}</b> {(((items.sale_price - items.unit_price) / items.sale_price) * 100).toFixed(0) + "%"} <b className={lang === 'en' ? 'text-[12px]' : "sr-only"}>{t("promotion")}</b>
+                              </b>
                           </strong>
                           <Image
                             src={items.image_url}
@@ -458,11 +460,11 @@ export default function Home() {
                       )}
                     </div>
                     <div className="relative flex flex-col items-start justify-end bg-gray-100 p-4">
-                      <strong className="my-2 start-2 top-2 z-10 rounded-md bg-red-500/30 px-1 text-red-500 transition">
+                      <strong className={item.sale_price <= 0 ? "sr-only":"my-2 start-2 top-2 z-10 rounded-md bg-red-500/30 px-2 pb-2 pt-1 text-red-500 transition"}>
                         <span className="sr-only">Wishlist</span>
-                        <b className="text-[12px] pb-[2px] sr-only">
-                          {t("promotion")}
-                        </b>
+                        <p className="text-[12px]">
+                            <b className={lang !== 'en' ? 'text-[12px]' : "sr-only"}>{t("promotion")}</b> {(((item.sale_price - item.unit_price) / item.sale_price) * 100).toFixed(0) + "%"} <b className={lang === 'en' ? 'text-[12px]' :"sr-only"}>{t("promotion")}</b>
+                        </p>
                       </strong>
                       <div className="w-full">
                         <div className="flex items-center gap-2">
@@ -694,7 +696,7 @@ export default function Home() {
                                 className={qtyChange === 0 ? 'rounded-sm  ms-1 group relative inline-block text-sm font-medium focus:outline-none focus:ring-none text-red-400' : "rounded-sm  ms-1 group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring-none active:text-red-500"}
                             >
                               <span className="absolute inset-0 border border-current rounded-sm "></span>
-                              <span className={qtyChange === 0 ? "rounded-sm flex items-center gap-3 block border border-current bg-gray-200 px-8 py-2 transition-transform cursor-not-allowed group-hover:-translate-x-0 group-hover:-translate-y-0":"rounded-sm  flex items-center gap-3 block border border-current bg-white px-8 py-2 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"}>
+                              <span className={qtyChange === 0 ? "rounded-sm items-center gap-3 block border border-current bg-gray-200 px-8 py-2 transition-transform cursor-not-allowed group-hover:-translate-x-0 group-hover:-translate-y-0":"rounded-sm  flex items-center gap-3 block border border-current bg-white px-8 py-2 transition-transform group-hover:-translate-x-1 group-hover:-translate-y-1"}>
                                   Check out
                                 </span>
                             </button>
